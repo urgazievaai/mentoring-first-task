@@ -1,0 +1,10 @@
+<mat-card class="user-card">
+  <mat-card-content>ID: {{ userModel.id }}</mat-card-content>
+  <mat-card-content>{{ userModel.name }}</mat-card-content>
+  <mat-card-content>{{ userModel.username }}</mat-card-content>
+  <mat-card-content>{{ userModel.email }}</mat-card-content>
+  <mat-card-content>{{ userModel.phone }}</mat-card-content>
+  <button mat-stroked-button (click)="onDeleteUser()" class="delete-btn">
+    Удалить
+  </button>
+</mat-card>

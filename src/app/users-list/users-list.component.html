@@ -1,1 +1,15 @@
-<p>users-list works!</p>
+<mat-grid-list cols="4" rowHeight="1:1" class="users-list">
+  <mat-grid-tile *ngFor="let user of users$ | async">
+    <app-users-card
+      [userModel]="user"
+      (deleteUser)="onDeleteUser($event)"
+      (click)="openCreateEditDialog(user)"
+    >
+    </app-users-card>
+  </mat-grid-tile>
+</mat-grid-list>
+<div class="btn-container">
+  <button class="create-user-btn" mat-stroked-button (click)="openCreateEditDialog()">
+    Добавить пользователя
+  </button>
+</div>

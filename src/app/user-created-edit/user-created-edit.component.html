@@ -1,0 +1,27 @@
+<div class="user-create">
+  <div>
+    <mat-dialog-content>
+      <form [formGroup]="createUser">
+        <mat-form-field>
+          <mat-label>Введите ваше имя</mat-label>
+          <input matInput formControlName="name" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Введите ваше пользовательское имя</mat-label>
+          <input matInput formControlName="username" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Введите вашу почту</mat-label>
+          <input matInput formControlName="email" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Введите ваш номер телефона</mat-label>
+          <input matInput formControlName="phone" />
+        </mat-form-field>
+      </form>
+      <li>
+        <button mat-raised-button (click)="onSubmit()">Сохранить</button>
+      </li>
+    </mat-dialog-content>
+  </div>
+</div>
