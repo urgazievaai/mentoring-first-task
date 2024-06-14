@@ -12,7 +12,6 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { UsersService } from '../services/users-service';
 import { UserModel } from '../models/user-model';
 
 @Component({
@@ -31,7 +30,8 @@ import { UserModel } from '../models/user-model';
 })
 export class UserCreatedEditComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
-  private readonly dialogData: { user: UserModel; isEdit: boolean } = inject(MAT_DIALOG_DATA);
+  private readonly dialogData: { user: UserModel; isEdit: boolean } =
+    inject(MAT_DIALOG_DATA);
   private readonly dialogRef = inject(MatDialogRef);
 
   public readonly createUser = this.formBuilder.group({
@@ -46,7 +46,6 @@ export class UserCreatedEditComponent implements OnInit {
       this.createUser.patchValue(this.dialogData.user);
     }
   }
-
 
   public onSubmit(): void {
     if (this.createUser.valid) {

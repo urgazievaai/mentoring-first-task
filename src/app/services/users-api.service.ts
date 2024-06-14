@@ -22,10 +22,10 @@ export class UsersApiService {
   }
 
   public deleteUser(userId: number): Observable<UserModel> {
-    return this.http.delete<UserModel>(`${this.apiUrl}/${userId}`)
+    return this.http.delete<UserModel>(`${this.apiUrl}/${userId}`);
   }
 
   public updateUser(user: UserModel): Observable<UserModel> {
-    return this.http.post<UserModel>(this.apiUrl, user)
+    return this.http.post<UserModel>(this.apiUrl, user);
   }
 }

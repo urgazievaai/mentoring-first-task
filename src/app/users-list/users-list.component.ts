@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { UsersService } from '../services/users-service';
 import { UsersCardComponent } from '../users-card/users-card/users-card.component';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { UserCreatedEditComponent } from '../user-created-edit/user-created-edit.component';
 import { UserModel } from '../models/user-model';
-import { UsersLocalStorageService } from '../services/users-local-storage.service';
 import { Store } from '@ngrx/store';
 import {
   addUser,
@@ -38,37 +36,34 @@ import { UsersApiService } from '../services/users-api.service';
 })
 export class UsersListComponent implements OnInit {
   private readonly store = inject(Store);
-  public readonly usersService = inject(UsersService);
-  public readonly usersApi = inject(UsersApiService)
-  //  public readonly users$ = this.usersService.users$;
+  public readonly usersApi = inject(UsersApiService);
   public readonly users$ = this.store.select(selectUsers);
   private readonly dialog = inject(MatDialog);
 
   ngOnInit(): void {
-    //код инициализации, сделали запрос на бэк и заполнили сервис данными
-    // this.usersService.loadUsers()
-      this.store.dispatch(loadUser());
+    this.store.dispatch(loadUser());
   }
 
   onDeleteUser(id: number): void {
     this.store.dispatch(deleteUser({ id }));
   }
 
-
   public openCreateEditDialog(user?: UserModel): void {
     const isEdit = Boolean(user);
     const dialogRef = this.dialog.open(UserCreatedEditComponent, {
-      data: { user, isEdit }
-    }); 
+      data: { user, isEdit },
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (!result) return; 
+      if (!result) return;
 
-      isEdit 
-        ? this.store.dispatch(updateUserSuccess({ userData: {...user, ...result}}))
-        : this.store.dispatch(addUserSuccess({ userData: result}))
+      isEdit
+        ? this.store.dispatch(
+            updateUserSuccess({ userData: { ...user, ...result } })
+          )
+        : this.store.dispatch(addUserSuccess({ userData: result }));
 
-    console.log({...user, ...result})
-      });
+      console.log({ ...user, ...result });
+    });
   }
 }

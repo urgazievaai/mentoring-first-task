@@ -44,14 +44,14 @@ export const reducer = createReducer(
   on(addUserSuccess, (state, { userData }) => {
     const newUser = {
       ...userData,
-      id: userData.id || new Date().getTime()
-    }
-    
-   return {
+      id: userData.id || new Date().getTime(),
+    };
+
+    return {
       ...state,
-      users: [...state.users, newUser]
-  }
-}),
+      users: [...state.users, newUser],
+    };
+  }),
 
   on(addUserFailure, (state, { error }) => ({ ...state })),
 
@@ -62,11 +62,10 @@ export const reducer = createReducer(
 
   on(updateUser, (state) => ({ ...state })),
 
-
   on(updateUserSuccess, (state, { userData }) => ({
     ...state,
     users: state.users.map((user) =>
-      user.id === userData.id ? {...user, ...userData} : user
+      user.id === userData.id ? { ...user, ...userData } : user
     ),
   })),
 
