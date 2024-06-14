@@ -8,6 +8,20 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { UserCreatedEditComponent } from '../user-created-edit/user-created-edit.component';
 import { UserModel } from '../models/user-model';
 import { UsersLocalStorageService } from '../services/users-local-storage.service';
+import { Store } from '@ngrx/store';
+import {
+  addUser,
+  addUserSuccess,
+  deleteUser,
+  loadUser,
+  loadUserFailure,
+  loadUserSuccess,
+  updateUser,
+  updateUserSuccess,
+} from '../state/users/users.action';
+import { selectUsers } from '../state/users/users.selectors';
+import { UserState } from '../state/users/users.reducer';
+import { UsersApiService } from '../services/users-api.service';
 
 @Component({
   selector: 'app-users-list',
@@ -23,32 +37,38 @@ import { UsersLocalStorageService } from '../services/users-local-storage.servic
   styleUrl: './users-list.component.scss',
 })
 export class UsersListComponent implements OnInit {
+  private readonly store = inject(Store);
   public readonly usersService = inject(UsersService);
-  public readonly users$ = this.usersService.users$;
+  public readonly usersApi = inject(UsersApiService)
+  //  public readonly users$ = this.usersService.users$;
+  public readonly users$ = this.store.select(selectUsers);
   private readonly dialog = inject(MatDialog);
 
   ngOnInit(): void {
     //код инициализации, сделали запрос на бэк и заполнили сервис данными
-    this.usersService.loadUsers();
+    // this.usersService.loadUsers()
+      this.store.dispatch(loadUser());
   }
 
   onDeleteUser(id: number): void {
-    this.usersService.removeUser(id);
+    this.store.dispatch(deleteUser({ id }));
   }
 
+
   public openCreateEditDialog(user?: UserModel): void {
-    const isEdit = Boolean(user); //проверка пользователя, переменная isEdit получает значение true, если параметр user существует (не null и не undefined), иначе false.
-
+    const isEdit = Boolean(user);
     const dialogRef = this.dialog.open(UserCreatedEditComponent, {
-      data: { user, isEdit },
-    }); //Открывается окно и передается данные
+      data: { user, isEdit }
+    }); 
 
-    dialogRef.afterClosed().subscribe((editUser?: UserModel) => {
-      if (!editUser) return; // проверка на наличие editUser
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) return; 
 
-      isEdit
-        ? this.usersService.editUser(editUser)
-        : this.usersService.addUser(editUser);
-    });
+      isEdit 
+        ? this.store.dispatch(updateUserSuccess({ userData: {...user, ...result}}))
+        : this.store.dispatch(addUserSuccess({ userData: result}))
+
+    console.log({...user, ...result})
+      });
   }
 }

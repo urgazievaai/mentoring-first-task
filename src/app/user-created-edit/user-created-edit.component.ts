@@ -31,8 +31,7 @@ import { UserModel } from '../models/user-model';
 })
 export class UserCreatedEditComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
-  private readonly dialogData: { user: UserModel; isEdit: boolean } =
-    inject(MAT_DIALOG_DATA);
+  private readonly dialogData: { user: UserModel; isEdit: boolean } = inject(MAT_DIALOG_DATA);
   private readonly dialogRef = inject(MatDialogRef);
 
   public readonly createUser = this.formBuilder.group({
@@ -42,13 +41,14 @@ export class UserCreatedEditComponent implements OnInit {
     phone: ['', Validators.required],
   });
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if (this.dialogData.user) {
       this.createUser.patchValue(this.dialogData.user);
     }
   }
 
-  onSubmit(): void {
+
+  public onSubmit(): void {
     if (this.createUser.valid) {
       this.dialogRef.close(this.createUser.value);
     }

@@ -16,4 +16,16 @@ export class UsersApiService {
   public getUsers(): Observable<UserModel[]> {
     return this.http.get<UserModel[]>(this.apiUrl);
   }
+
+  public postUser(user: UserModel): Observable<UserModel> {
+    return this.http.post<UserModel>(this.apiUrl, user);
+  }
+
+  public deleteUser(userId: number): Observable<UserModel> {
+    return this.http.delete<UserModel>(`${this.apiUrl}/${userId}`)
+  }
+
+  public updateUser(user: UserModel): Observable<UserModel> {
+    return this.http.post<UserModel>(this.apiUrl, user)
+  }
 }
